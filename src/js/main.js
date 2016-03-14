@@ -3,9 +3,14 @@ var GINK = GINK || {};
 GINK.bootstrap = function ($) {
     $.keyReader = new $.KeyReader();
     $.currentLevel = new $.Level(1);
+
+    $.toolBox = new $.ToolBox($);
+    $.toolBox.init();
+
+    $.actionBar = new $.ActionBar($);
+    $.actionBar.init();
+
     $.initGlobals($);
-    $.initActionBar($);
-    $.initToolBox($);
     $.initCanvas($);
     $.initGameLoop($);
     $.initKeyReader($);
@@ -16,38 +21,6 @@ GINK.initGlobals = function ($) {
     $.INTERVAL_TIME = 1000 / GINK.FRAME_RATE;
     $.SCREEN_WIDTH = 400;
     $.SCREEN_HEIGHT = 240;
-};
-
-GINK.initToolBox = function ($) {
-    var i,
-        tools = document.querySelectorAll('#toolbox > li');
-
-    for (i = 0; i < tools.length; i++) {
-        tools[i].onclick = function (e) {
-            $.currentTool = e.target.id;
-            for (var j = 0; j < tools.length; j++) {
-                tools[j].className = '';
-                e.target.className = 'active';
-            }
-            $.canvas.focus();
-        }
-    };
-};
-
-GINK.initActionBar = function ($) {
-    var i,
-        actions = document.querySelectorAll('#action > li');
-
-    for (i = 0; i < actions.length; i++) {
-        actions[i].onclick = function (e) {
-            $.currentTool = e.target.id;
-            for (var j = 0; j < actions.length; j++) {
-                actions[j].className = '';
-                e.target.className = 'active';
-            }
-            $.canvas.focus();
-        }
-    };
 };
 
 GINK.initCanvas = function ($) {
