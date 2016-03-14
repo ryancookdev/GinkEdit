@@ -1,14 +1,27 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>COG2 Level Editor</title>
-        <style type="text/css">
-            body {background-color: white; text-align: center;}
-            canvas {border: 1px solid black; width: 800px; height: 480px;}
-        </style>
+        <link rel="stylesheet" type="text/css" href="theme.css">
+        <script src="src/js/assert.js"></script>
+        <script src="src/js/main.js"></script>
+        <script src="src/js/keyReader.js"></script>
+        <script src="src/js/level.js"></script>
     </head>
     <body>
+        <ul id="action">
+            <li id="new">New</li>
+            <li id="select" class="active">Select</li>
+            <li id="edit">Edit</li>
+        </ul>
+        <div class="clear"></div>
+        <ul id="toolbox">
+            <li id="player">Player</li>
+            <li id="platform" class="active">Platform</li>
+            <li id="arrow">Arrow</li>
+            <li id="powerup">Power Up</li>
+        </ul>
         <canvas id="gink" width="800" height="480"></canvas>
-        <script>
-        </script>
+
     </body>
 </html>

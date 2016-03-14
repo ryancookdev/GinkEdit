@@ -1,0 +1,66 @@
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+body
+{
+    background-color: #bbb;
+}
+
+canvas
+{
+    border: 1px solid black;
+    width: 800px;
+    height: 480px;
+}
+
+#toolbox
+{
+    float: left;
+    width: 120px;
+}
+
+#toolbox > li
+{
+    padding: 10px;
+    margin-top: 2px;
+}
+
+#action
+{
+    margin-left: 122px;
+}
+
+#action > li
+{
+    float: left;
+    padding: 10px 15px;
+    margin-right: 2px; // to avoid hiding the active outline
+}
+
+li.active
+{
+    outline: 2px solid red;
+    background-color: white;
+    cursor: default;
+}
+
+li
+{
+    list-style-type: none;
+    cursor: pointer;
+}
+
+li:hover:not(.active)
+{
+    background-color: #ccc;
+}
+
+.clear
+{
+    clear: both;
+}
+
+

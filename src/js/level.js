@@ -35,4 +35,9 @@ GINK.Level = function (number) {
     this.previous = function () {
         return previousLevel;
     };
+
+    this.draw = function () {
+        GINK.ctx.fillStyle = '#000000';
+        GINK.ctx.fillRect(0, 0, GINK.SCREEN_WIDTH, GINK.SCREEN_HEIGHT);
+    };
 };
