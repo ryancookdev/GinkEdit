@@ -37,8 +37,11 @@ GINK.Level = function (number) {
         return previousLevel;
     };
 
-    this.draw = function () {
-        GINK.ctx.fillStyle = '#000000';
-        GINK.ctx.fillRect(0, 0, GINK.SCREEN_WIDTH, GINK.SCREEN_HEIGHT);
+    this.addPlatform = function () {
+        platforms.push(new GINK.Platform(GINK));
+    };
+
+    this.getObjects = function () {
+        return platforms;
     };
 };

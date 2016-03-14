@@ -4,20 +4,28 @@ GINK.ToolBox = function ($) {
     var currentTool;
 
     this.init = function (tools) {
-        var i, j;
+        var i;
 
         tools = (tools ? tools : getAllTools());
 
         for (i = 0; i < tools.length; i++) {
             tools[i].onclick = function (e) {
-                currentTool = e.target.id;
-                for (j = 0; j < tools.length; j++) {
-                    tools[j].className = '';
-                    e.target.className = 'active';
-                }
+                setActiveTool(e.target);
             }
         };
 
+    };
+
+    var setActiveTool = function (tool) {
+        var i,
+            tools;
+
+        tools = getAllTools();
+        for (i = 0; i < tools.length; i++) {
+            tools[i].className = '';
+        }
+        tool.className = 'active';
+        currentTool = tool.id;
     };
 
     var getAllTools = function () {
