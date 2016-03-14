@@ -2,7 +2,8 @@ var GINK = GINK || {};
 
 GINK.Level = function (number) {
     var nextLevel,
-        previousLevel;
+        previousLevel,
+        platforms = [];
 
     GINK.assertType(number, 'number');
 

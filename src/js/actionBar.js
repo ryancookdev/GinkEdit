@@ -1,21 +1,29 @@
 var GINK = GINK || {};
 
 GINK.ActionBar = function ($) {
+    var currentAction;
 
-    this.init = function () {
-        var i,
-            actions;
+    this.init = function (actions) {
+        var i, j;
 
-        actions = document.querySelectorAll('#action > li');
+        actions = (actions ? actions : getAllActions());
+
         for (i = 0; i < actions.length; i++) {
             actions[i].onclick = function (e) {
-                $.currentTool = e.target.id;
-                for (var j = 0; j < actions.length; j++) {
+                currentAction = e.target.id;
+                for (j = 0; j < actions.length; j++) {
                     actions[j].className = '';
                     e.target.className = 'active';
                 }
-                $.canvas.focus();
             }
         };
+    };
+
+    var getAllActions = function () {
+        return document.querySelectorAll('#action > li');
+    };
+
+    this.getCurrentAction = function () {
+        return currentAction;
     };
 };

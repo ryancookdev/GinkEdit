@@ -1,22 +1,30 @@
 var GINK = GINK || {};
 
 GINK.ToolBox = function ($) {
+    var currentTool;
 
-    this.init = function () {
-        var i,
-            tools;
+    this.init = function (tools) {
+        var i, j;
 
-        tools = document.querySelectorAll('#toolbox > li');
+        tools = (tools ? tools : getAllTools());
+
         for (i = 0; i < tools.length; i++) {
             tools[i].onclick = function (e) {
-                $.currentTool = e.target.id;
-                for (var j = 0; j < tools.length; j++) {
+                currentTool = e.target.id;
+                for (j = 0; j < tools.length; j++) {
                     tools[j].className = '';
                     e.target.className = 'active';
                 }
-                $.canvas.focus();
             }
         };
 
+    };
+
+    var getAllTools = function () {
+        return document.querySelectorAll('#toolbox > li');
+    };
+
+    this.getCurrentTool = function () {
+        return currentTool;
     };
 };
