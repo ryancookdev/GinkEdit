@@ -1,23 +1,38 @@
 var GINK = GINK || {};
 
 GINK.ActionBar = function ($) {
-    var currentAction;
+    var currentAction,
+        subscribers = [];
 
     this.init = function (actions) {
-        var i, j;
+        var i;
 
         actions = (actions ? actions : getAllActions());
 
         for (i = 0; i < actions.length; i++) {
             actions[i].onclick = function (e) {
-                currentAction = e.target.id;
-                for (j = 0; j < actions.length; j++) {
-                    actions[j].className = '';
-                    e.target.className = 'active';
-                }
+                setActiveAction(e.target);
             }
         };
     };
+
+    var setActiveAction = function (action) {
+        var i,
+            actions;
+
+        actions = getAllActions();
+        for (i = 0; i < actions.length; i++) {
+            actions[i].className = '';
+        }
+        action.className = 'active';
+        currentAction = action.id;
+        notifyAll(currentAction);
+
+        if (currentAction === 'new') {
+            setActiveAction(document.getElementById('edit'));
+        }
+    };
+
 
     var getAllActions = function () {
         return document.querySelectorAll('#action > li');
@@ -25,5 +40,19 @@ GINK.ActionBar = function ($) {
 
     this.getCurrentAction = function () {
         return currentAction;
+    };
+
+    this.addSubscriber = function (subscriber) {
+        subscribers.push(subscriber);
+    };
+
+    var notifyAll = function (currentAction) {
+        for (var i = 0; i < subscribers.length; i++) {
+            subscribers[i]({action: currentAction});
+        }
+    };
+
+    this.toolBoxChange = function (obj) {
+        setActiveAction(document.getElementById('select'));
     };
 };

@@ -1,7 +1,8 @@
 var GINK = GINK || {};
 
 GINK.ToolBox = function ($) {
-    var currentTool;
+    var currentTool,
+        subscribers = [];
 
     this.init = function (tools) {
         var i;
@@ -26,6 +27,7 @@ GINK.ToolBox = function ($) {
         }
         tool.className = 'active';
         currentTool = tool.id;
+        notifyAll(currentTool);
     };
 
     var getAllTools = function () {
@@ -34,5 +36,15 @@ GINK.ToolBox = function ($) {
 
     this.getCurrentTool = function () {
         return currentTool;
+    };
+
+    this.addSubscriber = function (subscriber) {
+        subscribers.push(subscriber);
+    };
+
+    var notifyAll = function (currentTool) {
+        for (var i = 0; i < subscribers.length; i++) {
+            subscribers[i]({tool: currentTool});
+        }
     };
 };

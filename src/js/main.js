@@ -3,9 +3,7 @@ var GINK = GINK || {};
 GINK.bootstrap = function ($) {
     $.initGlobals($);
 
-    $.keyReader = new $.KeyReader();
     $.currentLevel = new $.Level(1);
-$.currentLevel.addPlatform();
 
     $.toolBox = new $.ToolBox($);
     $.toolBox.init();
@@ -13,12 +11,16 @@ $.currentLevel.addPlatform();
     $.actionBar = new $.ActionBar($);
     $.actionBar.init();
 
-    $.screen = new $.Screen();
+    $.screen = new $.Screen($);
     $.screen.setCanvas(document.getElementById('gink'));
     $.screen.setLevel($.currentLevel);
 
+    $.actionBar.addSubscriber($.screen.actionBarChange);
+    $.toolBox.addSubscriber($.screen.toolBoxChange);
+    $.toolBox.addSubscriber($.actionBar.toolBoxChange);
+
     $.initGameLoop($);
-    $.initKeyReader($);
+    $.initKeyEventListener($);
 }
 
 GINK.initGlobals = function ($) {
@@ -34,10 +36,10 @@ GINK.initGameLoop = function ($) {
     }, $.INTERVAL_TIME);
 };
 
-GINK.initKeyReader = function ($) {
+GINK.initKeyEventListener = function ($) {
     document.onkeydown = function (e) {
         e = (e ? e : window.event);
-        $.keyReader.read(e);
+        $.screen.keyEventListener(e);
     };
 };
 
