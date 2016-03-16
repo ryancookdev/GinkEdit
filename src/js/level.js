@@ -37,8 +37,8 @@ GINK.Level = function (number) {
         return previousLevel;
     };
 
-    this.addPlatform = function () {
-        platforms.push(new GINK.Platform(GINK));
+    this.addPlatform = function (platform) {
+        platforms.push(platform);
     };
 
     this.getObjects = function () {

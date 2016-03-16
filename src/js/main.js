@@ -14,12 +14,12 @@ GINK.bootstrap = function ($) {
     $.screen = new $.Screen($);
     $.screen.setCanvas(document.getElementById('gink'));
     $.screen.setLevel($.currentLevel);
+    $.screen.draw();
 
     $.actionBar.addSubscriber($.screen.actionBarChange);
     $.toolBox.addSubscriber($.screen.toolBoxChange);
     $.toolBox.addSubscriber($.actionBar.toolBoxChange);
 
-    $.initGameLoop($);
     $.initKeyEventListener($);
 }
 
@@ -28,18 +28,23 @@ GINK.initGlobals = function ($) {
     $.INTERVAL_TIME = 1000 / GINK.FRAME_RATE;
     $.SCREEN_WIDTH = 400;
     $.SCREEN_HEIGHT = 240;
-};
-
-GINK.initGameLoop = function ($) {
-    setInterval(function () {
-       $.screen.draw();
-    }, $.INTERVAL_TIME);
+    $.keypress = [];
 };
 
 GINK.initKeyEventListener = function ($) {
     document.onkeydown = function (e) {
         e = (e ? e : window.event);
-        $.screen.keyEventListener(e);
+        if ($.keypress.indexOf(e.keyCode) === -1) {
+            $.keypress.push(e.keyCode);
+        }
+        $.screen.keyEventListener();
+    };
+
+    document.onkeyup = function (e) {
+        var keyPosition = $.keypress.indexOf(e.keyCode);
+        if (keyPosition !== -1) {
+            $.keypress.splice(keyPosition, 1);
+        }
     };
 };
 
