@@ -31,7 +31,7 @@ GINK.Screen = function ($) {
         for (i = 0; i < levelObjects.length; i++) {
             levelObjects[i].draw(ctx);
         }
-        if (editObj !== undefined && editObj.draw !== undefined) {
+        if (editObj !== null && editObj !== undefined && editObj.draw !== undefined) {
             editObj.draw(ctx);
         }
     };
@@ -53,53 +53,54 @@ GINK.Screen = function ($) {
     };
 
     this.keyEventListener = function () {
-        var KEY_CTRL = 17,
-            KEY_ESC = 27,
-            KEY_SPACE = 32,
-            KEY_LEFT = 37,
-            KEY_UP = 38,
-            KEY_RIGHT = 39,
-            KEY_DOWN = 40,
-            KEY_A = 65,
-            KEY_E = 69,
-            KEY_H = 72,
-            KEY_P = 80,
-            KEY_Q = 81,
-            KEY_S = 83;
+        var CTRL = 17,
+            LEFT = 37,
+            UP = 38,
+            RIGHT = 39,
+            DOWN = 40,
+            DELETE = 46;
 
-        if (isPressed(KEY_CTRL) && isPressed(KEY_RIGHT) && currentAction === 'edit') {
+        if (isPressed(CTRL) && isPressed(RIGHT) && currentAction === 'edit') {
             editObj.incSize();
             that.draw();
             return;
         }
 
-        if (isPressed(KEY_CTRL) && isPressed(KEY_LEFT) && currentAction === 'edit') {
+        if (isPressed(CTRL) && isPressed(LEFT) && currentAction === 'edit') {
             editObj.decSize();
             that.draw();
             return;
         }
 
-        if (isPressed(KEY_RIGHT) && currentAction === 'edit') {
+        if (isPressed(RIGHT) && currentAction === 'edit') {
             editObj.incX();
             that.draw();
             return;
         }
 
-        if (isPressed(KEY_LEFT) && currentAction === 'edit') {
+        if (isPressed(LEFT) && currentAction === 'edit') {
             editObj.decX();
             that.draw();
             return;
         }
 
-        if (isPressed(KEY_UP) && currentAction === 'edit') {
+        if (isPressed(UP) && currentAction === 'edit') {
             editObj.decY();
             that.draw();
             return;
         }
 
-        if (isPressed(KEY_DOWN) && currentAction === 'edit') {
+        if (isPressed(DOWN) && currentAction === 'edit') {
             editObj.incY();
             that.draw();
+            return;
+        }
+
+        if (isPressed(DELETE) && currentAction === 'edit') {
+            level.removePlatform(editObj);
+            editObj = null;
+            that.draw();
+            $.actionBar.resetAction();
             return;
         }
 

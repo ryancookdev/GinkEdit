@@ -52,7 +52,7 @@ GINK.ActionBar = function ($) {
         }
     };
 
-    this.toolBoxChange = function (obj) {
+    this.resetAction = function (obj) {
         setActiveAction(document.getElementById('select'));
     };
 };

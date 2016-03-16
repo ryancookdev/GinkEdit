@@ -18,7 +18,7 @@ GINK.bootstrap = function ($) {
 
     $.actionBar.addSubscriber($.screen.actionBarChange);
     $.toolBox.addSubscriber($.screen.toolBoxChange);
-    $.toolBox.addSubscriber($.actionBar.toolBoxChange);
+    $.toolBox.addSubscriber($.actionBar.resetAction);
 
     $.initKeyEventListener($);
 }

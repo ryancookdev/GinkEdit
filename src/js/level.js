@@ -41,6 +41,13 @@ GINK.Level = function (number) {
         platforms.push(platform);
     };
 
+    this.removePlatform = function (platform) {
+        var position = platforms.indexOf(platform);
+        if (position !== -1) {
+            platforms.splice(position, 1);
+        }
+    };
+
     this.getObjects = function () {
         return platforms;
     };
