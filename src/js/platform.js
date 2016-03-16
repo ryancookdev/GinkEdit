@@ -7,8 +7,9 @@ GINK.Platform = function ($) {
 
     y -= y % 14; // Make sure it is a multiple of 14
 
-    this.draw = function (ctx) {
-        ctx.fillStyle = "#9b0000";
+    this.draw = function (ctx, color) {
+        color = (color ? color : "#9b0000");
+        ctx.fillStyle = color;
         ctx.fillRect(x, y, length, 3);
     };
 

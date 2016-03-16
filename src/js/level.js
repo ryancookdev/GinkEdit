@@ -48,6 +48,26 @@ GINK.Level = function (number) {
         }
     };
 
+    this.getFirstPlatform = function () {
+        return platforms[0];
+    };
+
+    this.getNextPlatform = function (platform) {
+        var position = platforms.indexOf(platform);
+        if (++position === platforms.length) {
+            position = 0;
+        }
+        return platforms[position];
+    };
+
+    this.getPreviousPlatform = function (platform) {
+        var position = platforms.indexOf(platform);
+        if (--position === -1) {
+            position = platforms.length - 1;
+        }
+        return platforms[position];
+    };
+
     this.getObjects = function () {
         return platforms;
     };

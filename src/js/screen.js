@@ -32,7 +32,7 @@ GINK.Screen = function ($) {
             levelObjects[i].draw(ctx);
         }
         if (editObj !== null && editObj !== undefined && editObj.draw !== undefined) {
-            editObj.draw(ctx);
+            editObj.draw(ctx, "#00a9a9");
         }
     };
 
@@ -97,10 +97,22 @@ GINK.Screen = function ($) {
         }
 
         if (isPressed(DELETE) && currentAction === 'edit') {
-            level.removePlatform(editObj);
-            editObj = null;
-            that.draw();
             $.actionBar.resetAction();
+            level.removePlatform(editObj);
+            editObj = level.getFirstPlatform();
+            that.draw();
+            return;
+        }
+
+        if (isPressed(RIGHT) && currentAction === 'select') {
+            editObj = level.getNextPlatform(editObj);
+            that.draw();
+            return;
+        }
+
+        if (isPressed(LEFT) && currentAction === 'select') {
+            editObj = level.getPreviousPlatform(editObj);
+            that.draw();
             return;
         }
 
