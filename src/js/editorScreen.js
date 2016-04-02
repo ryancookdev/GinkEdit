@@ -1,20 +1,12 @@
 var GINK = GINK || {};
 
-GINK.Screen = function ($) {
+GINK.EditorScreen = function ($) {
     var that = this,
-        ctx,
         level,
         currentTool,
         currentAction,
-        editObj;
-
-    this.setCanvas = function (c) {
-        ctx = c.getContext('2d');
-        ctx.mozImageSmoothingEnabled = false;
-        ctx.msImageSmoothingEnabled = false;
-        ctx.imageSmoothingEnabled = false;
-        ctx.scale(2, 2);
-    };
+        editObj,
+        ctx = $.canvasContext;
 
     this.setLevel = function (l) {
         level = l;
@@ -119,7 +111,7 @@ GINK.Screen = function ($) {
     };
 
     var isPressed = function (key) {
-        return ($.keypress.indexOf(key) !== -1);
+        return ($.keypressList.indexOf(key) !== -1);
     };
 
 };

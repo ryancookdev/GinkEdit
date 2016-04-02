@@ -1,51 +1,67 @@
 var GINK = GINK || {};
 
 GINK.bootstrap = function ($) {
-    $.initGlobals($);
+    $.SCREEN_WIDTH = 400;
+    $.SCREEN_HEIGHT = 240;
+
+    initContext();
 
     $.currentLevel = new $.Level(1);
+    $.editorScreen = new $.EditorScreen($);
+    $.editorScreen.setLevel($.currentLevel);
+    $.playScreen = new $.PlayScreen($);
+    $.playScreen.setLevel($.currentLevel);
+    $.screen = $.editorScreen;
+    $.screen.draw();
 
     $.toolBox = new $.ToolBox($);
     $.toolBox.init();
-
     $.actionBar = new $.ActionBar($);
     $.actionBar.init();
-
-    $.screen = new $.Screen($);
-    $.screen.setCanvas(document.getElementById('gink'));
-    $.screen.setLevel($.currentLevel);
-    $.screen.draw();
 
     $.actionBar.addSubscriber($.screen.actionBarChange);
     $.toolBox.addSubscriber($.screen.toolBoxChange);
     $.toolBox.addSubscriber($.actionBar.resetAction);
+    $.actionBar.addSubscriber($.toolBox.handleActionChange);
 
-    $.initKeyEventListener($);
-}
+    initKeyEventListener();
 
-GINK.initGlobals = function ($) {
-    $.FRAME_RATE = 40;
-    $.INTERVAL_TIME = 1000 / GINK.FRAME_RATE;
-    $.SCREEN_WIDTH = 400;
-    $.SCREEN_HEIGHT = 240;
-    $.keypress = [];
-};
+    function initContext () {
+        $.canvasContext = document.getElementById('gink').getContext('2d');
+        $.canvasContext.mozImageSmoothingEnabled = false;
+        $.canvasContext.msImageSmoothingEnabled = false;
+        $.canvasContext.imageSmoothingEnabled = false;
+        $.canvasContext.scale(2, 2);
+    }
 
-GINK.initKeyEventListener = function ($) {
-    document.onkeydown = function (e) {
-        e = (e ? e : window.event);
-        if ($.keypress.indexOf(e.keyCode) === -1) {
-            $.keypress.push(e.keyCode);
+    function initKeyEventListener () {
+        $.keypressList = [];
+
+        document.onkeydown = function (e) {
+            e = (e ? e : window.event);
+            addKeypress(e.keyCode);
+            $.screen.keyEventListener();
+        };
+
+        document.onkeyup = function (e) {
+            e = (e ? e : window.event);
+            removeKeypress(e.keyCode);
+        };
+
+        function addKeypress (keyCode) {
+            if ($.keypressList.indexOf(keyCode) === -1) {
+                $.keypressList.push(keyCode);
+            }
         }
-        $.screen.keyEventListener();
+
+        function removeKeypress (keyCode) {
+            var keyPosition = $.keypressList.indexOf(keyCode);
+            if (keyPosition !== -1) {
+                $.keypressList.splice(keyPosition, 1);
+            }
+        };
     };
 
-    document.onkeyup = function (e) {
-        var keyPosition = $.keypress.indexOf(e.keyCode);
-        if (keyPosition !== -1) {
-            $.keypress.splice(keyPosition, 1);
-        }
-    };
 };
 
 document.addEventListener('DOMContentLoaded', function(event) { 

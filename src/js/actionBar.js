@@ -5,18 +5,44 @@ GINK.ActionBar = function ($) {
         subscribers = [];
 
     this.init = function (actions) {
-        var i;
-
-        actions = (actions ? actions : getAllActions());
+        var i,
+            actions = (actions ? actions : getAllActions());
 
         for (i = 0; i < actions.length; i++) {
             actions[i].onclick = function (e) {
-                setActiveAction(e.target);
+                if (e.target.className !== 'locked') {
+                    setActiveAction(e.target);
+                }
             }
         };
     };
 
     var setActiveAction = function (action) {
+        inactivateAll();
+        activateCurrentAction(action);
+
+        if (currentAction === 'new') {
+            setActiveAction(document.getElementById('edit'));
+            return;
+        }
+
+        if (currentAction === 'play' && $.screen === $.editorScreen) {
+            $.screen = $.playScreen;
+            $.screen.draw();
+            lock();
+            return;
+        }
+
+        if (currentAction === 'play' && $.screen === $.playScreen) {
+            $.screen = $.editorScreen;
+            $.screen.draw();
+            setActiveAction(document.getElementById('select'));
+            unlock();
+            return;
+        }
+    };
+
+    var inactivateAll = function () {
         var i,
             actions;
 
@@ -24,15 +50,34 @@ GINK.ActionBar = function ($) {
         for (i = 0; i < actions.length; i++) {
             actions[i].className = '';
         }
+
+    };
+
+    var activateCurrentAction = function (action) {
         action.className = 'active';
         currentAction = action.id;
         notifyAll(currentAction);
+    };
 
-        if (currentAction === 'new') {
-            setActiveAction(document.getElementById('edit'));
+    var lock = function () {
+        var elements = document.querySelectorAll('#action > li');
+        for(var i = elements.length - 1; i >= 0; --i)
+        {
+            if (elements[i].className !== 'active') {
+                elements[i].className = 'locked';
+            }
         }
     };
 
+    var unlock = function () {
+        var elements = document.querySelectorAll('#action > li');
+        for(var i = elements.length - 1; i >= 0; --i)
+        {
+            if (elements[i].className === 'locked') {
+                elements[i].className = '';
+            }
+        }
+    };
 
     var getAllActions = function () {
         return document.querySelectorAll('#action > li');
