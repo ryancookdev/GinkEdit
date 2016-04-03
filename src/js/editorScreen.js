@@ -92,10 +92,10 @@ GINK.EditorScreen = function ($) {
         }
 
         if (isPressed(DELETE) && currentAction === 'edit') {
-            $.actionBar.resetAction();
             level.removePlatform(editObj);
             editObj = level.getFirstPlatform();
             that.draw();
+            $.actionBar.resetAction();
             return;
         }
 
