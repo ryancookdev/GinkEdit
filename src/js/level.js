@@ -3,7 +3,8 @@ var GINK = GINK || {};
 GINK.Level = function (number) {
     var nextLevel,
         previousLevel,
-        platforms = [];
+        platforms = [],
+        player = new GINK.Player(GINK);
 
     GINK.assertType(number, 'number');
 
@@ -68,7 +69,16 @@ GINK.Level = function (number) {
         return platforms[position];
     };
 
+    this.getPlayer = function () {
+        return player;
+    };
+
     this.getObjects = function () {
-        return platforms;
+        var gameObjects = [];
+        for (var i = 0; i < platforms.length; i++) {
+            gameObjects.push(platforms[i]);
+        }
+        gameObjects.push(player);
+        return gameObjects;
     };
 };

@@ -30,6 +30,9 @@ GINK.EditorScreen = function ($) {
 
     this.toolBoxChange = function (obj) {
         currentTool = obj.tool;
+        if (currentTool === 'player') {
+            editObj = level.getPlayer();
+        }
         that.draw();
     };
 
