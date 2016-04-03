@@ -2,7 +2,8 @@ var GINK = GINK || {};
 
 GINK.ToolBox = function ($) {
     var currentTool,
-        subscribers = [];
+        subscribers = [],
+        that = this;
 
     this.init = function (tools) {
         var i,
@@ -11,11 +12,10 @@ GINK.ToolBox = function ($) {
         for (i = 0; i < tools.length; i++) {
             tools[i].onclick = function (e) {
                 if (e.target.className !== 'locked') {
-                    setActiveTool(e.target);
+                    that.setActiveTool(e.target);
                 }
             }
         };
-
     };
 
     this.handleActionChange = function (obj) {
@@ -32,7 +32,7 @@ GINK.ToolBox = function ($) {
 
     var lock = function () {
         var elements = document.querySelectorAll('#toolbox > li');
-        for(var i = elements.length - 1; i >= 0; --i)
+        for (var i = elements.length - 1; i >= 0; --i)
         {
             elements[i].className = 'locked';
         }
@@ -40,7 +40,7 @@ GINK.ToolBox = function ($) {
 
     var unlock = function () {
         var elements = document.querySelectorAll('#toolbox > li');
-        for(var i = elements.length - 1; i >= 0; --i)
+        for (var i = elements.length - 1; i >= 0; --i)
         {
             if (elements[i].className === 'locked') {
                 elements[i].className = '';
@@ -48,7 +48,7 @@ GINK.ToolBox = function ($) {
         }
     };
 
-    var setActiveTool = function (tool) {
+    this.setActiveTool = function (tool) {
         var i,
             tools;
 

@@ -15,14 +15,17 @@ GINK.bootstrap = function ($) {
     $.screen.draw();
 
     $.toolBox = new $.ToolBox($);
-    $.toolBox.init();
     $.actionBar = new $.ActionBar($);
-    $.actionBar.init();
 
     $.actionBar.addSubscriber($.screen.actionBarChange);
     $.toolBox.addSubscriber($.screen.toolBoxChange);
     $.toolBox.addSubscriber($.actionBar.resetAction);
     $.actionBar.addSubscriber($.toolBox.handleActionChange);
+
+    $.toolBox.init();
+    $.actionBar.init();
+
+    $.toolBox.setActiveTool(document.getElementById('player'));
 
     initKeyEventListener();
 

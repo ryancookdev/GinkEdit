@@ -2,7 +2,12 @@ var GINK = GINK || {};
 
 GINK.ActionBar = function ($) {
     var currentAction,
-        subscribers = [];
+        currentTool,
+        subscribers = [],
+        toolActions = {
+            player : ['edit', 'play'],
+            platform : ['select', 'edit', 'new', 'play']
+        };
 
     this.init = function (actions) {
         var i,
@@ -29,14 +34,14 @@ GINK.ActionBar = function ($) {
         if (currentAction === 'play' && $.screen === $.editorScreen) {
             $.screen = $.playScreen;
             $.screen.draw();
-            lock();
+            lockAllExceptActive();
             return;
         }
 
         if (currentAction === 'play' && $.screen === $.playScreen) {
             $.screen = $.editorScreen;
             $.screen.draw();
-            setActiveAction(document.getElementById('select'));
+            setActiveAction(document.getElementById(toolActions[currentTool][0]));
             unlock();
             return;
         }
@@ -48,7 +53,9 @@ GINK.ActionBar = function ($) {
 
         actions = getAllActions();
         for (i = 0; i < actions.length; i++) {
-            actions[i].className = '';
+            if (actions[i].className === 'active') {
+                actions[i].className = '';
+            }
         }
 
     };
@@ -59,9 +66,9 @@ GINK.ActionBar = function ($) {
         notifyAll(currentAction);
     };
 
-    var lock = function () {
+    var lockAllExceptActive = function () {
         var elements = document.querySelectorAll('#action > li');
-        for(var i = elements.length - 1; i >= 0; --i)
+        for (var i = elements.length - 1; i >= 0; --i)
         {
             if (elements[i].className !== 'active') {
                 elements[i].className = 'locked';
@@ -69,10 +76,22 @@ GINK.ActionBar = function ($) {
         }
     };
 
+    var lockAll = function () {
+        var elements = document.querySelectorAll('#action > li');
+        for (var i = elements.length - 1; i >= 0; --i)
+        {
+            elements[i].className = 'locked';
+        }
+    };
+
     var unlock = function () {
         var elements = document.querySelectorAll('#action > li');
-        for(var i = elements.length - 1; i >= 0; --i)
+        for (var i = elements.length - 1; i >= 0; --i)
         {
+            if (toolActions[currentTool].indexOf(elements[i].id) === -1) {
+                continue;
+            }
+
             if (elements[i].className === 'locked') {
                 elements[i].className = '';
             }
@@ -98,6 +117,9 @@ GINK.ActionBar = function ($) {
     };
 
     this.resetAction = function (obj) {
-        setActiveAction(document.getElementById('select'));
+        currentTool = obj.tool;
+        lockAll();
+        unlock();
+        setActiveAction(document.getElementById(toolActions[currentTool][0]));
     };
 };
