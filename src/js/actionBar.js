@@ -41,7 +41,6 @@ GINK.ActionBar = function ($) {
         if (currentAction === 'play' && $.screen === $.playScreen) {
             $.screen = $.editorScreen;
             $.screen.draw();
-            currentTool = 'player';
             setActiveAction(document.getElementById(toolActions[currentTool][0]));
             unlock();
             return;

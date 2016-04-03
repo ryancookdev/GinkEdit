@@ -32,6 +32,8 @@ GINK.EditorScreen = function ($) {
         currentTool = obj.tool;
         if (currentTool === 'player') {
             editObj = level.getPlayer();
+        } else if (currentTool === 'platform') {
+            editObj = level.getNextPlatform();
         }
         that.draw();
     };

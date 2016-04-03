@@ -24,7 +24,6 @@ GINK.ToolBox = function ($) {
                 lock();
             } else {
                 unlock();
-                currentTool = 'player';
                 document.getElementById(currentTool).className = 'active';
             }
         }
